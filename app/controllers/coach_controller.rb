@@ -1,6 +1,6 @@
 class CoachController < ApplicationController
     def index
-      @coaches = Coach.all # TODO: Skip fully booked coaches!
+      @coaches = Coach.all 
     end
   
     def show

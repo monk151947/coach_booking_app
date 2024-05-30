@@ -5,8 +5,8 @@ class TimeSlot < ApplicationRecord
   DURATION_IN_MINUTES = 30
 
   def generate_time_slots(start_time:, finish_time:)
-    start_time.remove_all_spaces! # TODO: move this to the importer
-    finish_time.remove_all_spaces! # TODO: move this to the importer
+    start_time.remove_all_spaces! 
+    finish_time.remove_all_spaces! 
     validate_duration_in_minutes
     validate_times(start_time, finish_time)
     compile_and_return_time_slots(Time.parse(start_time), Time.parse(finish_time))
@@ -36,35 +36,6 @@ class TimeSlot < ApplicationRecord
     time.match(/^[0-9]{1,2}\:[0-9]{2}?[AP][M]/i)
   end
 
-  # FIXME: Fix 'start_time' bug...
-  #
-  # ...when start_time is on the half hour (9:30AM),
-  # we incorrectly get 1 extra time slot.
-  #
-  # Formula:
-  #
-  #   (finish_time - start_time) * (60 / DURATION_IN_MINUTES)
-  #
-  # Examples:
-  #
-  #   => start time = 9:00
-  #   => finish time = 15:00
-  #   => DURATION_IN_MINUTES = 30
-  #
-  #   60 / 30 = 2 (half hour)
-  #   (15 - 9) * 2 = 12 time slots
-  #
-  #   Doubling the number of iterations, giving us the ability to
-  #   fill time slots for every 30 minutes.
-  #
-  #   => DURATION_IN_MINUTES = 15
-  #
-  #   60 / 15 = 4 (quarter hour)
-  #   (15 - 9) * 4 = 24 time slots
-  #
-  #   Quadrupling the number of iterations, giving us the ability
-  #   to fill time slots for every 15 minutes.
-  #
   def compile_and_return_time_slots(start, finish)
     slots = []
     total = num_slots(start, finish)
