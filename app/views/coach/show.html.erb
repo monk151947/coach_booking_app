@@ -20,9 +20,8 @@
           <td>
             <% @slots.each do |slot| %>
               <% if slot.availability.day_of_week == index %>
-              <%= slot.start %>
                 <div class="p-1">
-                  <% time = time_format(@student.to_coaches_time_zone(time: slot.start, coach: @coach)) %>
+                  <% time = time_format(@student.to_coaches_time_zone(time: slot.start, student: @student,  coach: @coach)) %>
                   <% if slot.available %>
                     <%= link_to time, nil , class: 'info badge-pill btn btn-success',
                                 'data-toggle': 'modal', 'data-target': '#confirmAppointmentModal',

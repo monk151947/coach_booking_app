@@ -274,6 +274,7 @@ DEPENDENCIES
   sprockets-rails
   stimulus-rails
   turbo-rails
+  tzinfo
   tzinfo-data
   web-console
 
