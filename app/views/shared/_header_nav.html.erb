@@ -3,7 +3,7 @@
     <%= link_to 'Home', root_path, class: 'btn btn-primary' %>
     <% if session[:student_id] %>
       <span class="text-secondary">|</span>
-      <%= link_to 'Logout', student_logout_path, class: 'btn btn-success' %>
+      <%= link_to 'Logout', student_logout_path, class: 'btn btn-secondary' %>
     <% end %>
   </div>
 </div>

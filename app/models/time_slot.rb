@@ -9,7 +9,7 @@ class TimeSlot < ApplicationRecord
     finish_time.remove_all_spaces! 
     validate_duration_in_minutes
     validate_times(start_time, finish_time)
-    compile_and_return_time_slots(Time.parse(start_time), Time.parse(finish_time))
+    compile_and_return_time_slots(Time.parse(start_time),  Time.parse(finish_time))
   end
 
   class << self
@@ -36,17 +36,14 @@ class TimeSlot < ApplicationRecord
     time.match(/^[0-9]{1,2}\:[0-9]{2}?[AP][M]/i)
   end
 
-  def compile_and_return_time_slots(start, finish)
+  def compile_and_return_time_slots(start_time, end_time)
     slots = []
-    total = num_slots(start, finish)
-    1.upto(total) do
-      slots << start.to_formatted_string
-      start += (DURATION_IN_MINUTES * 60)
+    current_time = start_time
+    while current_time < end_time
+      interval_end = current_time + 30 * 60
+      slots << current_time
+      current_time = interval_end
     end
-    slots
-  end
-
-  def num_slots(start, finish)
-    (finish.hour - start.hour) * (60 / DURATION_IN_MINUTES)
+    slots.map{|i| i.strftime('%I:%M%p')}
   end
 end
